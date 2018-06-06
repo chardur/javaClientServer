@@ -1,11 +1,16 @@
 package studentChat;
-// charles durfee CS3230 sum 18
-public class Group implements Comparable<Group>{
+
+/**
+ *  @author Charles Durfee
+ *  @since  CS 3230 Summer 2018
+ */
+
+public class Group implements Comparable<Group> {
 
     private Student studentOne;
     private Student studentTwo;
 
-    public Group (Student studentOne, Student studentTwo){
+    public Group(Student studentOne, Student studentTwo) {
 
         this.studentOne = studentOne;
         this.studentTwo = studentTwo;
@@ -33,10 +38,10 @@ public class Group implements Comparable<Group>{
     @Override
     public int compareTo(Group group) {
 
-       int compareValue = this.studentOne.getfName().compareTo(group.studentOne.getfName());
-       if (compareValue == 0) {
-           compareValue = this.studentOne.getlName().compareTo(group.studentOne.getlName());
-       }
+        int compareValue = studentOne.getFirstName().compareTo(group.studentOne.getFirstName());
+        if (compareValue == 0) {
+            compareValue = studentOne.getLastName().compareTo(group.studentOne.getLastName());
+        }
         return compareValue;
     }
 }

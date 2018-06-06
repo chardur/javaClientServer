@@ -1,56 +1,52 @@
 package studentChat;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-// charles durfee CS3230 sum 18
-public class Student {
 
-    private String fName;
-    private String lName;
+/**
+ *  @author Charles Durfee
+ *  @since  CS 3230 Summer 2018
+ */
+
+public class Student implements Comparable<Student> {
+
+    private String firstName;
+    private String lastName;
     private double score;
     private List<String> responses;
 
-    private List<String> greetings = Arrays.asList("Hello", "Hi", "Hola", "Greetings human", "I come in peace");
-    private List<String> secondResp = Arrays.asList("Where am I?", "What year is it?", "Are you high?", "What do you want?", "Take me to your leader");
-    private List<String> thirdResp = Arrays.asList("Your crazy maaan", "Are you ok?", "That's not what I wanted", "Are you human?", "Im so high right now...");
-    private List<String> fourthResp = Arrays.asList("This is strange", "I cant see anything!", "Im typing with my feet", "How do I get to Mars from here?", "Whats that smell?");
-    private List<String> endings = Arrays.asList("Bye", "Adios", "Cya", "Later", "I'm Out!");
+    public Student (String firstName, String lastName, double score) {
 
-    public Student (String fName, String lName, double score) {
-
-        this.fName = fName;
-        this.lName = lName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.score = score;
-
-        Collections.shuffle(greetings);
-        Collections.shuffle(secondResp);
-        Collections.shuffle(thirdResp);
-        Collections.shuffle(fourthResp);
-        Collections.shuffle(endings);
-
+        List<String> greetings = Arrays.asList("Hello", "Hi", "Hola", "Greetings human", "I come in peace");
+        List<String> secondResp = Arrays.asList("Where am I?", "What year is it?", "Are you high?", "What do you want?", "Take me to your leader");
+        List<String> thirdResp = Arrays.asList("Your crazy maaan", "Are you ok?", "That's not what I wanted", "Are you human?", "Im so high right now...");
+        List<String> fourthResp = Arrays.asList("This is strange", "I cant see anything!", "Im typing with my feet", "How do I get to Mars from here?", "Whats that smell?");
+        List<String> endings = Arrays.asList("Bye", "Adios", "Cya", "Later", "I'm Out!");
         responses = Arrays.asList(greetings.get(0), secondResp.get(0), thirdResp.get(0), fourthResp.get(0), endings.get(0));
 
     }
 
-    public String getfName() {
+    public String getFirstName() {
 
-        return fName;
+        return firstName;
     }
 
-    public void setfName(String fName) {
+    public void setFirstName(String firstName) {
 
-        this.fName = fName;
+        this.firstName = firstName;
     }
 
-    public String getlName() {
+    public String getLastName() {
 
-        return lName;
+        return lastName;
     }
 
-    public void setlName(String lName) {
+    public void setLastName(String lastName) {
 
-        this.lName = lName;
+        this.lastName = lastName;
     }
 
     public double getScore() {
@@ -66,5 +62,19 @@ public class Student {
     public List<String> getResponses() {
 
         return this.responses;
+    }
+
+    public String getChatMessage(int n){
+        return getFirstName() + " " + getLastName() + ": " +getResponses().get(n);
+    }
+
+    @Override
+    public int compareTo(Student student) {
+
+        int compareValue = this.getFirstName().compareTo(student.getFirstName());
+        if (compareValue == 0) {
+            compareValue = this.getLastName().compareTo(student.getLastName());
+        }
+        return compareValue;
     }
 }

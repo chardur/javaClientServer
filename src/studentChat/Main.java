@@ -1,7 +1,14 @@
 package studentChat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
-// charles durfee CS3230 sum 18
+
+   /**
+    *  @author Charles Durfee
+    *  @since  CS 3230 Summer 2018
+    */
+
 public class Main {
 
     public static void main(String[] args) {
@@ -11,29 +18,30 @@ public class Main {
 
         String[] lastNames = {"Davenport", "Durfee", "Gapas", "Gray", "Leishman", "Pedregon", "Peters", "Pitkin", "Schroeder", "Stoddard", "Wickster", "Yu"};
 
-        Student [] studentArray = new Student[12];
+        TreeSet<Student> studentSet = new TreeSet<>();
 
         for (int i = 0; i < 12; i++){
 
-               studentArray[i] = new Student(firstNames[i], lastNames[i], 100);
+               studentSet.add(new Student(firstNames[i], lastNames[i], 100));
             }
 
-        TreeSet<Group> studentSet = new TreeSet<Group>();
+       List<Student> studentList = new ArrayList<>();
+        studentList.addAll(studentSet);
+
+        TreeSet<Group> groupSet = new TreeSet<>();
 
         for (int i = 0; i <= 5; i++){
 
-            Group myGroup = new Group(studentArray[i], studentArray[11-i]);
-            studentSet.add(myGroup);
+            Group myGroup = new Group(studentList.get(i), studentList.get(11-i));
+            groupSet.add(myGroup);
         }
 
-        for (Group group : studentSet){
+        for (Group group : groupSet){
 
             for (int i = 0; i <= 4; i++) {
-                System.out.print(group.getStudentOne().getfName() + " " + group.getStudentOne().getlName() + ": ");
-                System.out.println(group.getStudentOne().getResponses().get(i));
+                System.out.println(group.getStudentOne().getChatMessage(i));
+                System.out.println(group.getStudentTwo().getChatMessage(i));
 
-                System.out.print(group.getStudentTwo().getfName() + " " + group.getStudentTwo().getlName() + ": ");
-                System.out.println(group.getStudentTwo().getResponses().get(i));
             }
         }
     }
