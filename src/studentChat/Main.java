@@ -1,5 +1,6 @@
 package studentChat;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -12,6 +13,12 @@ import java.util.TreeSet;
 public class Main {
 
     public static void main(String[] args) {
+
+        JFrame frame = new JFrame("ChatGUI");
+        frame.setContentPane(new ChatGUI().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 500);
+        frame.setVisible(true);
 
         String [] firstNames =
                 {"Gracie", "Charles", "Michael", "Michael", "Patrick", "Jonathan", "Clifford", "Jacob", "Margaret", "Randal", "Joshua", "Bo"};
