@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  @author Charles Durfee
- *  @since  CS 3230 Summer 2018
+ * @author Charles Durfee
+ * @since CS 3230 Summer 2018
  */
 
 public class Student implements Comparable<Student> {
@@ -15,7 +15,7 @@ public class Student implements Comparable<Student> {
     private double score;
     private List<String> responses;
 
-    public Student (String firstName, String lastName, double score) {
+    public Student(String firstName, String lastName, double score) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,8 +64,8 @@ public class Student implements Comparable<Student> {
         return this.responses;
     }
 
-    public String getChatMessage(int n){
-        return getFirstName() + " " + getLastName() + ": " +getResponses().get(n);
+    public String getChatMessage(int n) {
+        return getFirstName() + " " + getLastName() + ": " + getResponses().get(n);
     }
 
     @Override

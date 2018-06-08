@@ -1,8 +1,8 @@
 package studentChat;
 
 /**
- *  @author Charles Durfee
- *  @since  CS 3230 Summer 2018
+ * @author Charles Durfee
+ * @since CS 3230 Summer 2018
  */
 
 public class Group implements Comparable<Group> {

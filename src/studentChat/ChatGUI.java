@@ -1,8 +1,7 @@
 package studentChat;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class ChatGUI {
     public JPanel mainPanel;
@@ -15,13 +14,24 @@ public class ChatGUI {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //JOptionPane.showMessageDialog(null, "You clicked the button");
                 String response = "You: " + responseText.getText();
                 responseText.setText("");
                 addResponse(response);
             }
         });
+
+        responseText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.isControlDown() || e.getKeyCode() == KeyEvent.VK_META) && e.getKeyCode() == KeyEvent.VK_ENTER ){
+                    String response = "You: " + responseText.getText();
+                    responseText.setText("");
+                    addResponse(response);
+                }
+            }
+        });
     }
+
 
     public void addResponse(String response) {
         chatText.setText(chatText.getText() + System.lineSeparator() + response);
