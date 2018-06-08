@@ -13,9 +13,9 @@ import java.util.TreeSet;
 public class Main {
 
     public static void main(String[] args) {
-
+        ChatGUI Chat = new ChatGUI();
         JFrame frame = new JFrame("ChatGUI");
-        frame.setContentPane(new ChatGUI().mainPanel);
+        frame.setContentPane(Chat.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
         frame.setVisible(true);
@@ -46,10 +46,11 @@ public class Main {
         for (Group group : groupSet){
 
             for (int i = 0; i <= 4; i++) {
-                System.out.println(group.getStudentOne().getChatMessage(i));
-                System.out.println(group.getStudentTwo().getChatMessage(i));
-
-            }
+                //System.out.println(group.getStudentOne().getChatMessage(i));
+                //System.out.println(group.getStudentTwo().getChatMessage(i));
+                Chat.addResponse(group.getStudentOne().getChatMessage(i));
+                Chat.addResponse(group.getStudentTwo().getChatMessage(i));
+                            }
         }
     }
 }

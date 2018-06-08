@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="8d4d2" class="javax.swing.JTextArea" binding="textArea2" default-binding="true">
+      <component id="8d4d2" class="javax.swing.JTextArea" binding="responseText">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="18"/>
@@ -68,15 +68,22 @@
         </constraints>
         <properties>
           <horizontalScrollBarPolicy value="31"/>
+          <opaque value="true"/>
         </properties>
         <border type="none"/>
         <children>
           <component id="ef6be" class="javax.swing.JTextArea" binding="chatText">
             <constraints/>
             <properties>
+              <caretColor color="-16777216"/>
+              <disabledTextColor color="-16777216"/>
               <enabled value="false"/>
+              <foreground color="-16777216"/>
               <lineWrap value="true"/>
+              <opaque value="true"/>
               <rows value="10"/>
+              <selectedTextColor color="-16777216"/>
+              <selectionColor color="-16777216"/>
             </properties>
           </component>
         </children>
