@@ -1,6 +1,11 @@
 package studentChat;
 
 import javax.swing.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -13,12 +18,30 @@ import java.util.TreeSet;
 public class Main {
 
     public static void main(String[] args) {
-        ChatGUI Chat = new ChatGUI();
-        JFrame frame = new JFrame("ChatGUI");
+        ChatGui Chat = new ChatGui();
+        JFrame frame = new JFrame("ChatGui");
         frame.setContentPane(Chat.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
         frame.setVisible(true);
+
+        String ip = JOptionPane.showInputDialog("Please enter the ip address: ");
+        while (ip == null || ip.isEmpty()) {
+            ip = JOptionPane.showInputDialog("Please enter the ip address: ");
+        }
+
+        String userName = JOptionPane.showInputDialog("Please enter your User name: ");
+        while (userName == null || userName.isEmpty()) {
+            userName = JOptionPane.showInputDialog("Please enter your User name: ");
+        }
+
+        ChatServer server = new ChatServer(userName);
+        server.start();
+
+
+            Thread t = new ChatClient(ip, 8090, userName);
+            t.start();
+
 
         String[] firstNames =
                 {"Gracie", "Charles", "Michael", "Michael", "Patrick", "Jonathan", "Clifford", "Jacob", "Margaret", "Randal", "Joshua", "Bo"};
@@ -50,5 +73,7 @@ public class Main {
                 Chat.addResponse(group.getStudentTwo().getChatMessage(i));
             }
         }
+
     }
+
 }
