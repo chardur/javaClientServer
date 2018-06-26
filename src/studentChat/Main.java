@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -35,12 +34,14 @@ public class Main {
             userName = JOptionPane.showInputDialog("Please enter your User name: ");
         }
 
-        ChatServer server = new ChatServer(userName);
-        server.start();
+        if (!checkForServer(ip)){
+            ChatServer server = new ChatServer(userName);
+            server.start();
+        }else{
+            ChatClient client = new ChatClient(ip, 8090, userName);
+            client.start();
+        }
 
-
-            Thread t = new ChatClient(ip, 8090, userName);
-            t.start();
 
 
         String[] firstNames =
@@ -75,5 +76,22 @@ public class Main {
         }
 
     }
+    public static boolean checkForServer(String ip){
 
+        Socket clientSocket = null;
+        try {
+            clientSocket = new Socket(ip, 8090);
+            clientSocket.setSoTimeout(5000);
+        } catch (ConnectException c) {
+            System.out.println("No Server detected");
+            return false;
+        }catch(SocketTimeoutException s) {
+        System.out.println("Socket timed out!");
+        return false;
+        }catch(IOException e) {
+        e.printStackTrace();
+        return false;
+        }
+        return true;
+    }
 }

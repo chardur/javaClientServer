@@ -54,4 +54,8 @@ public class ChatHandler extends Thread {
     private void send(String message) throws IOException {
         out.write(message.getBytes());
     }
+
+    public ChatServer getChatServer() {
+        return chatServer;
+    }
 }
