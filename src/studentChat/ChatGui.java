@@ -27,6 +27,7 @@ public class ChatGui {
                     String response = "You: " + responseText.getText();
                     responseText.setText("");
                     addResponse(response);
+
                 }
             }
         });

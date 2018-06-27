@@ -10,6 +10,9 @@ public class ChatHandler extends Thread {
     private String userName;
     private Socket clientSocket;
     private OutputStream out;
+    private String inputLine;
+    private PrintWriter printOut;
+
 
     public ChatHandler(ChatServer chatServer, Socket clientSocket, String userName){
 
@@ -35,11 +38,12 @@ public class ChatHandler extends Thread {
         //DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
         //out.writeUTF("Thank you for connecting to " + clientSocket.getLocalSocketAddress());
         this.out = clientSocket.getOutputStream();
-
+        this.printOut = new PrintWriter( new BufferedWriter(new OutputStreamWriter(out)));
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String inputLine;
 
         List<ChatHandler> handlerList = chatServer.getHandlerList();
+
+
 
         while ((inputLine = reader.readLine()) != null){
             String message = userName + ": " + inputLine +"\n";
@@ -52,7 +56,14 @@ public class ChatHandler extends Thread {
     }
 
     private void send(String message) throws IOException {
-        out.write(message.getBytes());
+        //out.write(message.getBytes());
+        printOut.write(message);
+        printOut.flush();
+
+    }
+
+    public void setInput(String inputLine){
+        this.inputLine = inputLine;
     }
 
     public ChatServer getChatServer() {
