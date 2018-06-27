@@ -50,6 +50,7 @@ public class ChatHandler extends Thread {
             for(ChatHandler handler : handlerList){
                 handler.send(message);
             }
+            Main.getChat().addResponse(message);
         }
 
         //out.write(("Thank you for connecting to " + clientSocket.getLocalSocketAddress()).getBytes());
@@ -59,7 +60,6 @@ public class ChatHandler extends Thread {
         //out.write(message.getBytes());
         printOut.write(message);
         printOut.flush();
-
     }
 
     public void setInput(String inputLine){

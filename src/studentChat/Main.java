@@ -16,8 +16,10 @@ import java.util.TreeSet;
 
 public class Main {
 
+    private static ChatGui chat;
+
     public static void main(String[] args) {
-        ChatGui chat = new ChatGui();
+        chat = new ChatGui();
         JFrame frame = new JFrame("ChatGui");
         frame.setContentPane(chat.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +37,10 @@ public class Main {
         }
 
         if (!checkForServer(ip)){
-            ChatServer server = new ChatServer(userName);
+            ChatServer server = new ChatServer("Server");
             server.start();
+            ChatClient client = new ChatClient(ip, 8090, userName);
+            client.start();
         }else{
             ChatClient client = new ChatClient(ip, 8090, userName);
             client.start();
@@ -93,5 +97,9 @@ public class Main {
         return false;
         }
         return true;
+    }
+
+    public static ChatGui getChat() {
+        return chat;
     }
 }
