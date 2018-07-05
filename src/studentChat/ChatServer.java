@@ -11,13 +11,9 @@ import java.util.List;
 
 public class ChatServer extends Thread {
 
+    public ChatServer()  {
 
-    private String userName;
-    private ArrayList<ChatHandler> handlerList = new ArrayList<>();
-
-    public ChatServer(String userName)  {
-        this.userName = userName;
-        }
+    }
 
     @Override
     public void run() {
@@ -25,21 +21,10 @@ public class ChatServer extends Thread {
             ServerSocket serverSocket = new ServerSocket(8090);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-
-                System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
-                ChatHandler handler = new ChatHandler(this, clientSocket, userName);
-                handlerList.add(handler);
-                handler.start();
-
+                ChatHandler.addChat(clientSocket);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public List<ChatHandler> getHandlerList(){
-        return handlerList;
-    }
 }
-
-

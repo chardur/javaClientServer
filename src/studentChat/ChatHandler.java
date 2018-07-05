@@ -3,70 +3,88 @@ package studentChat;
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class ChatHandler extends Thread {
 
-    private ChatServer chatServer;
     private String userName;
     private Socket clientSocket;
-    private OutputStream out;
-    private String inputLine;
-    private PrintWriter printOut;
+    private static ConcurrentMap<String, ChatHandler> clientsList = new ConcurrentHashMap<>();
+    private BufferedReader in;
+    private PrintWriter out;
 
-
-    public ChatHandler(ChatServer chatServer, Socket clientSocket, String userName){
+    private ChatHandler(Socket clientSocket){
 
         this.clientSocket = clientSocket;
-        this.userName = userName;
-        this.chatServer = chatServer;
+        try {
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            //clientSocket.setSoTimeout(2000);
+            userName = in.readLine();
+            //clientSocket.setSoTimeout(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error in ChatHandler");
+        }
     }
 
     @Override
     public void run() {
         try {
-            chatHandler();
+            while (clientSocket.isConnected() && !clientSocket.isClosed()) {
+                String message = in.readLine();
+                out.println("You said: " + message);
+                out.flush();
+
+                for (String username: clientsList.keySet()) {
+                    if (username.equals(this.userName)) {
+                        continue;
+                    }
+
+                    clientsList.get(username).send(this.userName, message);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Client disconnected");
+        }
+    }
+
+    public static void addChat(Socket socket) {
+        ChatHandler handler = null;
+        try {
+            handler = new ChatHandler(socket);
+
+            if (!clientsList.containsKey(handler.getUserName())) {
+                handler.sendAck();
+            }
+            else {
+                socket.close();
+                return;
+            }
+            clientsList.putIfAbsent(handler.getUserName(), handler);
+            new Thread(handler).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void chatHandler() throws IOException {
-        //DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-        //System.out.println(in.readUTF());
-        InputStream in = clientSocket.getInputStream();
-
-        //DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-        //out.writeUTF("Thank you for connecting to " + clientSocket.getLocalSocketAddress());
-        this.out = clientSocket.getOutputStream();
-        this.printOut = new PrintWriter( new BufferedWriter(new OutputStreamWriter(out)));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-        List<ChatHandler> handlerList = chatServer.getHandlerList();
-
-
-
-        while ((inputLine = reader.readLine()) != null){
-            String message = userName + ": " + inputLine +"\n";
-            for(ChatHandler handler : handlerList){
-                handler.send(message);
-            }
+    private void send(String sendingUsername, String message) throws IOException {
+        if (out != null && sendingUsername != null && message != null) {
+            out.println(sendingUsername + " says: " + message);
+            out.flush();
             Main.getChat().addResponse(message);
         }
+     }
 
-        //out.write(("Thank you for connecting to " + clientSocket.getLocalSocketAddress()).getBytes());
+    public String getUserName() {
+        return userName;
     }
 
-    private void send(String message) throws IOException {
-        //out.write(message.getBytes());
-        printOut.write(message);
-        printOut.flush();
-    }
-
-    public void setInput(String inputLine){
-        this.inputLine = inputLine;
-    }
-
-    public ChatServer getChatServer() {
-        return chatServer;
+    private void sendAck() {
+        out.println("ACK\n");
+        out.flush();
     }
 }

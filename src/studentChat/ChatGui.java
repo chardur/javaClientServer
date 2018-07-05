@@ -3,6 +3,7 @@ package studentChat;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class ChatGui {
     public JPanel mainPanel;
@@ -27,7 +28,6 @@ public class ChatGui {
                     String response = "You: " + responseText.getText();
                     responseText.setText("");
                     addResponse(response);
-
                 }
             }
         });
