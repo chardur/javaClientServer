@@ -19,6 +19,11 @@ public class ChatClient extends Thread{
     public void run() {
         try {
             Socket clientSocket = new Socket(ip, 8090);
+            ClientHandler handler = new ClientHandler(clientSocket);
+            handler.start();
+            handler.sendUsername(userName);
+            handler.sendUsername(userName);
+            Main.startClient(handler);
         } catch (IOException e) {
             e.printStackTrace();
         }

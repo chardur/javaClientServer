@@ -18,10 +18,11 @@ public class Main {
 
     private static ChatGui chat;
     private static String userName;
+    private static ClientHandler handler;
 
     public static void main(String[] args) {
-        runGui();
 
+        runGui();
 
         String ip = JOptionPane.showInputDialog("Please enter the ip address: ");
         while (ip == null || ip.isEmpty()) {
@@ -37,16 +38,12 @@ public class Main {
             if (!checkForServer(ip)){
                 ChatServer server = new ChatServer();
                 server.start();
-                ChatClient client = new ChatClient(ip, 8090, userName);
-                client.start();
-            }else{
-                ChatClient client = new ChatClient(ip, 8090, userName);
-                client.start();
+                //ChatClient client = new ChatClient(ip, 8090, userName);
+                //client.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         String[] firstNames =
                 {"Gracie", "Charles", "Michael", "Michael", "Patrick", "Jonathan", "Clifford", "Jacob", "Margaret", "Randal", "Joshua", "Bo"};
@@ -106,14 +103,23 @@ public class Main {
             e.printStackTrace();
             return false;
         }
-        clientSocket.close();
+        ClientHandler handler = new ClientHandler(clientSocket);
+        handler.start();
+        Main.startClient(handler);
         return true;
     }
 
     public static ChatGui getChat() {
         return chat;
     }
+
     public static String getUserName(){
         return userName;
     }
+
+    public static void startClient(ClientHandler h) {
+        handler = h;
+        h.sendUsername(userName);
+    }
+
 }

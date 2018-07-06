@@ -20,9 +20,9 @@ public class ChatHandler extends Thread {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            //clientSocket.setSoTimeout(2000);
+            clientSocket.setSoTimeout(8000);
             userName = in.readLine();
-            //clientSocket.setSoTimeout(0);
+            clientSocket.setSoTimeout(0);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error in ChatHandler");
@@ -56,6 +56,8 @@ public class ChatHandler extends Thread {
         ChatHandler handler = null;
         try {
             handler = new ChatHandler(socket);
+            handler.start();
+            System.out.println("username " + handler.getUserName() + socket.toString());
 
             if (!clientsList.containsKey(handler.getUserName())) {
                 handler.sendAck();
@@ -68,14 +70,15 @@ public class ChatHandler extends Thread {
             new Thread(handler).start();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("error in addChat");
         }
     }
 
-    private void send(String sendingUsername, String message) throws IOException {
+    private void send(String sendingUsername, String message) {
         if (out != null && sendingUsername != null && message != null) {
             out.println(sendingUsername + " says: " + message);
             out.flush();
-            Main.getChat().addResponse(message);
+            Main.getChat().addResponse(sendingUsername + ": " + message);
         }
      }
 

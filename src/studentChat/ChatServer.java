@@ -1,19 +1,11 @@
 package studentChat;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ChatServer extends Thread {
-
-    public ChatServer()  {
-
-    }
 
     @Override
     public void run() {
@@ -21,10 +13,12 @@ public class ChatServer extends Thread {
             ServerSocket serverSocket = new ServerSocket(8090);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
+                System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
                 ChatHandler.addChat(clientSocket);
             }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Error in chat server");
         }
     }
 }
