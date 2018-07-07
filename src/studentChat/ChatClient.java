@@ -17,15 +17,15 @@ public class ChatClient extends Thread{
 
     @Override
     public void run() {
+        Socket clientSocket = null;
         try {
-            Socket clientSocket = new Socket(ip, 8090);
-            ClientHandler handler = new ClientHandler(clientSocket);
-            handler.start();
-            handler.sendUsername(userName);
-            handler.sendUsername(userName);
-            Main.startClient(handler);
+            clientSocket = new Socket(ip, 8090);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ClientHandler handler = new ClientHandler(clientSocket);
+        handler.start();
+        Main.startClient(handler);
+
     }
 }

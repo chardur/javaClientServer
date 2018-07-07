@@ -1,8 +1,6 @@
 package studentChat;
 
 import javax.swing.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -38,8 +36,8 @@ public class Main {
             if (!checkForServer(ip)){
                 ChatServer server = new ChatServer();
                 server.start();
-                //ChatClient client = new ChatClient(ip, 8090, userName);
-                //client.start();
+                ChatClient client = new ChatClient(ip, 8090, userName);
+                client.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,13 +111,10 @@ public class Main {
         return chat;
     }
 
-    public static String getUserName(){
-        return userName;
-    }
-
     public static void startClient(ClientHandler h) {
         handler = h;
         h.sendUsername(userName);
     }
+    public static ClientHandler getHandler(){return handler;}
 
 }

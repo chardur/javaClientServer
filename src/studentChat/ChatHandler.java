@@ -2,7 +2,6 @@ package studentChat;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -57,7 +56,7 @@ public class ChatHandler extends Thread {
         try {
             handler = new ChatHandler(socket);
             handler.start();
-            System.out.println("username " + handler.getUserName() + socket.toString());
+            System.out.println("username " + handler.getUserName());
 
             if (!clientsList.containsKey(handler.getUserName())) {
                 handler.sendAck();
@@ -78,7 +77,7 @@ public class ChatHandler extends Thread {
         if (out != null && sendingUsername != null && message != null) {
             out.println(sendingUsername + " says: " + message);
             out.flush();
-            Main.getChat().addResponse(sendingUsername + ": " + message);
+            //Main.getChat().addResponse(sendingUsername + ": " + message);
         }
      }
 
